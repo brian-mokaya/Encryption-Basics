@@ -14,7 +14,7 @@ public class RowCipher {
                 if (index < plaintextMessage.length()) {
                     grid[row][col] = plaintextMessage.charAt(index++);
                 } else {
-                    grid[row][col] = 'X'; // Fill empty spaces with 'X'
+                    grid[row][col] = '\0'; // Use null character for empty spaces
                 }
             }
         }
@@ -23,7 +23,9 @@ public class RowCipher {
         StringBuilder encryptedMessage = new StringBuilder();
         for (int col = 0; col < key; col++) {
             for (int row = 0; row < numRows; row++) {
-                encryptedMessage.append(grid[row][col]);
+                if (grid[row][col] != '\0') { // Skip null characters
+                    encryptedMessage.append(grid[row][col]);
+                }
             }
         }
 
@@ -49,13 +51,10 @@ public class RowCipher {
         StringBuilder decryptedMessage = new StringBuilder();
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < key; col++) {
-                decryptedMessage.append(grid[row][col]);
+                if (grid[row][col] != '\0') { // Skip null characters
+                    decryptedMessage.append(grid[row][col]);
+                }
             }
-        }
-
-        // Remove trailing 'X' characters added during encryption
-        while (decryptedMessage.charAt(decryptedMessage.length() - 1) == 'X') {
-            decryptedMessage.deleteCharAt(decryptedMessage.length() - 1);
         }
 
         return decryptedMessage.toString();
