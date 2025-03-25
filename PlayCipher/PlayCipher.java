@@ -114,13 +114,19 @@ public class PlayCipher {
         StringBuilder decryptedText = new StringBuilder();
 
         for (int i = 0; i < ciphertext.length(); i += 2) {
-            char a = ciphertext.charAt(i); // First letter of the pair.
-            char b = ciphertext.charAt(i + 1); // Second letter of the pair.
+            char firstChar = ciphertext.charAt(i); // First letter of the pair.
+            char secondChar = ciphertext.charAt(i + 1); // Second letter of the pair.
 
-            decryptedText.append(decryptPair(a, b)); // Decrypt the pair.
+            decryptedText.append(decryptPair(firstChar, secondChar)); // Decrypt the pair.
         }
 
-        return decryptedText.toString(); // Return the decrypted text.
+        // Remove trailing 'X' if it was added as a filler
+        String result = decryptedText.toString();
+        if (result.endsWith("X")) {
+            result = result.substring(0, result.length() - 1);
+        }
+
+        return result; // Return the cleaned decrypted text.
     }
 
     private String decryptPair(char a, char b) {
